@@ -4,7 +4,7 @@ import (
 	"log"
 	"source/proto"
 
-	"gooogl.golang.org/grpc"
+	"google.golang.org/grpc"
 )
 
 var opts []grpc.DialOption
