@@ -4,4 +4,9 @@ package calculator;
 
 option go_package="./proto";
 
-service CalculatorService {}
+message Message{
+    string body = 1;
+}
+service CalculatorService {
+    rpc Sayhello(Message) returns (Message) {};
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"source/proto"
 
@@ -10,11 +11,15 @@ import (
 var opts []grpc.DialOption
 
 func main() {
-	cc, err := grpc.Dial("localhost:5000", opts...)
+	cc, err := grpc.Dial(":5000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal("cannot connect port 5000")
 	}
 	defer cc.Close()
-	client := proto.CalculatorServiceClient(cc)
-	log.Fatal("client running %v", client)
+	client := proto.NewCalculatorServiceClient(cc)
+	response, err := client.Sayhello(context.Background(), &proto.Message{Body: "Hello From Client!"})
+	if err != nil {
+		log.Fatalf("Error when calling SayHello: %s", err)
+	}
+	log.Printf("Response from server: %s", response.Body)
 }
